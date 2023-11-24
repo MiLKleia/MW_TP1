@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllCollections() ([]models.User, error) {
 	var err error
 	// calling repository
 	collections, err := repository.GetAllCollections()
@@ -26,12 +26,12 @@ func GetAllCollections() ([]models.Collection, error) {
 	return collections, nil
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
+func GetCollectionById(id uuid.UUID) (*models.User, error) {
 	collection, err := repository.GetCollectionById(id)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
 			return nil, &models.CustomError{
-				Message: "collection not found",
+				Message: "user not found",
 				Code:    http.StatusNotFound,
 			}
 		}

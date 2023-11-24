@@ -13,11 +13,11 @@ import (
 
 func Ctx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		collectionId, err := uuid.FromString(chi.URLParam(r, "id"))
+		collectionId, err := uuid.FromString(chi.URLParam(r, "uid"))
 		if err != nil {
 			logrus.Errorf("parsing error : %s", err.Error())
 			customError := &models.CustomError{
-				Message: fmt.Sprintf("cannot parse id (%s) as UUID", chi.URLParam(r, "id")),
+				Message: fmt.Sprintf("cannot parse id (%s) as UUID", chi.URLParam(r, "uid")),
 				Code:    http.StatusUnprocessableEntity,
 			}
 			w.WriteHeader(customError.Code)

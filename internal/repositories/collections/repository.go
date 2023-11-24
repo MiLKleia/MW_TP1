@@ -6,7 +6,7 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllCollections() ([]models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -18,22 +18,22 @@ func GetAllCollections() ([]models.Collection, error) {
 	}
 
 	// parsing datas in object slice
-	collections := []models.Collection{}
+	users := []models.User{}
 	for rows.Next() {
-		var data models.Collection
-		err = rows.Scan(&data.Id, &data.Content)
+		var data models.User
+		err = rows.Scan(&data.Id, &data.Name, &data.Surname, &data.Alias)
 		if err != nil {
 			return nil, err
 		}
-		collections = append(collections, data)
+		users = append(users, data)
 	}
 	// don't forget to close rows
 	_ = rows.Close()
 
-	return collections, err
+	return users, err
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
+func GetCollectionById(id uuid.UUID) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -41,10 +41,10 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 	row := db.QueryRow("SELECT * FROM users WHERE uid=?", id.String())
 	helpers.CloseDB(db)
 
-	var collection models.Collection
-	err = row.Scan(&collection.Id, &collection.Content)
+	var data models.User
+	err = row.Scan(&data.Id, &data.Name, &data.Surname, &data.Alias)
 	if err != nil {
 		return nil, err
 	}
-	return &collection, err
+	return &data, err
 }
