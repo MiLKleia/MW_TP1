@@ -9,13 +9,13 @@ import (
 	"net/http"
 )
 
-// GetCollection
-// @Tags         collections
-// @Summary      Get a collection.
-// @Description  Get a collection.
-// @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Collection
-// @Failure      422            "Cannot parse id"
+// GetUser
+// @Tags         users
+// @Summary      Get a user.
+// @Description  Get a user.
+// @Param        uid           	path      string  true  "user UUID formatted ID"
+// @Success      200            {object}  models.user
+// @Failure      422            "Cannot parse uid"
 // @Failure      500            "Something went wrong"
 // @Router       /users/{uid} [get]
 func GetUser(w http.ResponseWriter, r *http.Request) {

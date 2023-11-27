@@ -9,12 +9,12 @@ import (
 )
 
 // GetCollections
-// @Tags         collections
-// @Summary      Get collections.
-// @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// @Tags         users
+// @Summary      Get users.
+// @Description  Get users.
+// @Success      200            {array}  models.user
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
+// @Router       /users [get]
 func GetAllUsers(w http.ResponseWriter, _ *http.Request) {
 	// calling service
 	users, err := users.GetAllUsers()

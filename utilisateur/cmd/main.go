@@ -18,8 +18,12 @@ func main() {
 		r.Route("/{uid}", func(r chi.Router) {
 			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)
+			r.Delete("/", DeleteArticle)
 		})
 	})
+
+
+
 
 	logrus.Info("[INFO] Web server started. Now listening on *:8082")
 	logrus.Fatalln(http.ListenAndServe(":8082", r))

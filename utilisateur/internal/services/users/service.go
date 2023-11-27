@@ -44,3 +44,27 @@ func GetUserByUid(id uuid.UUID) (*models.User, error) {
 
 	return user, err
 }
+
+
+func deleteUserByUid(id uuid.UUID) (*models.User, error) {
+	_ , err := repository.deleteUserByUid(id)
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return nil, &models.CustomError{
+				Message: "user not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving users : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+	return nil, err
+	
+}
+
+
+
+

@@ -48,3 +48,18 @@ func GetUserByUid(uid uuid.UUID) (*models.User, error) {
 	}
 	return &data, err
 }
+
+func deleteUserByUid(uid uuid.UUID) (*models.User, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	
+	db.QueryRow("DELETE FROM users WHERE uid=?", uid.String())
+	helpers.CloseDB(db)
+
+	
+	return nil , err
+}
+
+
