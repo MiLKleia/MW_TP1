@@ -69,5 +69,27 @@ func DeleteUserByUid(id uuid.UUID) (error) {
 }
 
 
+func CreateUser(name string, surname string, alias string) (error) {
+	err := repository.CreateUser(name, surname, alias)
+
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return &models.CustomError{
+				Message: "user not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving users : %s", err.Error())
+		return &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+	return err
+	
+	
+}
+
+
 
 

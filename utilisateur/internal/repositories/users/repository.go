@@ -7,6 +7,23 @@ import (
 )
 
 
+func CreateUser(name string, surname string, alias string) (error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+
+	// TODO boucle tant que pas nouveau UID
+
+	uid, _ := uuid.NewV4()
+	_ , err2 := db.Exec("INSERT INTO users (uid, name, surname, alias) VALUES(? ,? , ?, ?);", uid.String(), name, surname, alias)
+	helpers.CloseDB(db)
+
+	
+	return err2
+	
+}
+
 func DeleteUserByUid(uid uuid.UUID) (error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
