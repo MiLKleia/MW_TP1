@@ -4,7 +4,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/controllers/collections"
+	"middleware/example/internal/controllers/users"
 	"middleware/example/internal/helpers"
 	_ "middleware/example/internal/models"
 	"net/http"
@@ -14,10 +14,10 @@ func main() {
 	r := chi.NewRouter()
 
 	r.Route("/users", func(r chi.Router) {
-		r.Get("/", collections.GetCollections)
+		r.Get("/", users.GetAllUsers)
 		r.Route("/{uid}", func(r chi.Router) {
-			r.Use(collections.Ctx)
-			r.Get("/", collections.GetCollection)
+			r.Use(users.Ctx)
+			r.Get("/", users.GetUserByUid)
 		})
 	})
 

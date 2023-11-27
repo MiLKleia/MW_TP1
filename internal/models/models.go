@@ -5,8 +5,8 @@ import (
 )
 
 type User struct {
-	Id      *uuid.UUID `json:"id"`
-	Name string     `json:"content"`
-	Surname string     `json:"content"`
-	Alias string     `json:"content"`
+	Uid      *uuid.UUID `json:"uid"`
+	Name string     `json:"name"`
+	Surname string     `json:"surname"`
+	Alias string     `json:"alias"`
 }

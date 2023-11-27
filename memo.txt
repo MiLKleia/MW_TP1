@@ -1,1 +1,8 @@
-insert into users (uid, name, surname, alias) values(00001, 'John', 'Doe', 'JD');
+insert into users (uid, name, surname, alias) values('8ad92d2e43f24a55760c44943e041ea2', 'John', 'Doe', 'JD');
+
+
+insert into users (uid, name, surname, alias) values('43dbcacc015d2e9f48883494b50ca485', 'Alice', 'Ingeborg', 'InA');
+
+uid using MD2 hash
+
+http://localhost:8082/users

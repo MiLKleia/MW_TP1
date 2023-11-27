@@ -1,4 +1,4 @@
-package collections
+package users
 
 import (
 	"github.com/gofrs/uuid"
@@ -6,7 +6,7 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllCollections() ([]models.User, error) {
+func GetAllUsers() ([]models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -21,7 +21,7 @@ func GetAllCollections() ([]models.User, error) {
 	users := []models.User{}
 	for rows.Next() {
 		var data models.User
-		err = rows.Scan(&data.Id, &data.Name, &data.Surname, &data.Alias)
+		err = rows.Scan(&data.Uid, &data.Name, &data.Surname, &data.Alias)
 		if err != nil {
 			return nil, err
 		}
@@ -33,16 +33,16 @@ func GetAllCollections() ([]models.User, error) {
 	return users, err
 }
 
-func GetCollectionById(id uuid.UUID) (*models.User, error) {
+func GetUserByUid(uid uuid.UUID) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	row := db.QueryRow("SELECT * FROM users WHERE uid=?", id.String())
+	row := db.QueryRow("SELECT * FROM users WHERE uid=?", uid.String())
 	helpers.CloseDB(db)
 
 	var data models.User
-	err = row.Scan(&data.Id, &data.Name, &data.Surname, &data.Alias)
+	err = row.Scan(&data.Uid, &data.Name, &data.Surname, &data.Alias)
 	if err != nil {
 		return nil, err
 	}
