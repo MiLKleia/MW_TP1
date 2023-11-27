@@ -17,7 +17,7 @@ func main() {
 		r.Get("/", users.GetAllUsers)
 		r.Route("/{uid}", func(r chi.Router) {
 			r.Use(users.Ctx)
-			r.Get("/", users.GetUserByUid)
+			r.Get("/", users.GetUser)
 		})
 	})
 

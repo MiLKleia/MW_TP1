@@ -1,7 +1,7 @@
-insert into users (uid, name, surname, alias) values('8ad92d2e43f24a55760c44943e041ea2', 'John', 'Doe', 'JD');
+insert into users (uid, name, surname, alias) values('8ad92d2e-43f2-4a55-760c-44943e041ea2', 'John', 'Doe', 'JD');
 
 
-insert into users (uid, name, surname, alias) values('43dbcacc015d2e9f48883494b50ca485', 'Alice', 'Ingeborg', 'InA');
+insert into users (uid, name, surname, alias) values('43dbcacc-015d-2e9f-4888-3494b50ca485', 'Alice', 'Ingeborg', 'InA');
 
 uid using MD2 hash
 

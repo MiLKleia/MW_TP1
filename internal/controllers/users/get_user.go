@@ -22,7 +22,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	userUid, _ := ctx.Value("userUid").(uuid.UUID)
 
-	user, err := users.GetUser(userUid)
+	user, err := users.GetUserByUid(userUid)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
