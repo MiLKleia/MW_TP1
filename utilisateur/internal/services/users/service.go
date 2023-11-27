@@ -27,7 +27,9 @@ func GetAllUsers() ([]models.User, error) {
 }
 
 func GetUserByUid(id uuid.UUID) (*models.User, error) {
-	user, err := repository.GetUserByUid(id)
+	var err error
+	
+	user , err := repository.GetUserByUid(id)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
 			return nil, &models.CustomError{
@@ -46,22 +48,23 @@ func GetUserByUid(id uuid.UUID) (*models.User, error) {
 }
 
 
-func deleteUserByUid(id uuid.UUID) (*models.User, error) {
-	_ , err := repository.deleteUserByUid(id)
+func DeleteUserByUid(id uuid.UUID) (error) {
+	err := repository.DeleteUserByUid(id)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
-			return nil, &models.CustomError{
+			return &models.CustomError{
 				Message: "user not found",
 				Code:    http.StatusNotFound,
 			}
 		}
 		logrus.Errorf("error retrieving users : %s", err.Error())
-		return nil, &models.CustomError{
+		return &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
-	return nil, err
+	return err
+	
 	
 }
 

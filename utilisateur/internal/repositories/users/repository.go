@@ -6,6 +6,19 @@ import (
 	"middleware/example/internal/models"
 )
 
+
+func DeleteUserByUid(uid uuid.UUID) (error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+
+	_ , err2 := db.Exec("DELETE FROM users WHERE uid=?", uid.String())
+	helpers.CloseDB(db)
+
+	return err2
+}
+
 func GetAllUsers() ([]models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
@@ -49,17 +62,6 @@ func GetUserByUid(uid uuid.UUID) (*models.User, error) {
 	return &data, err
 }
 
-func deleteUserByUid(uid uuid.UUID) (*models.User, error) {
-	db, err := helpers.OpenDB()
-	if err != nil {
-		return nil, err
-	}
-	
-	db.QueryRow("DELETE FROM users WHERE uid=?", uid.String())
-	helpers.CloseDB(db)
 
-	
-	return nil , err
-}
 
 

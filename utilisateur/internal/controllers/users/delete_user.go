@@ -2,6 +2,7 @@ package users
 
 import (
 	"encoding/json"
+	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/services/users"
@@ -20,10 +21,9 @@ import (
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 
-	ctx := r.Context()
-	userUid, _ := ctx.Value("userUid").(uuid.UUID)
+	userUid, _ := r.Context().Value("userUid").(uuid.UUID)
 	
-	user, err = users.deleteUserByUid(userUid)
+	err := users.DeleteUserByUid(userUid)
 
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
@@ -37,5 +37,8 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	w.WriteHeader(http.StatusOK)
+	return
 
 }

@@ -18,7 +18,7 @@ func main() {
 		r.Route("/{uid}", func(r chi.Router) {
 			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)
-			r.Delete("/", DeleteArticle)
+			r.Delete("/", users.DeleteUser)
 		})
 	})
 
