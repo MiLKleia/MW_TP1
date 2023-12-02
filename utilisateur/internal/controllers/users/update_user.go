@@ -1,31 +1,32 @@
 package users
 
 import (
-
 	"github.com/go-chi/chi/v5"
 	"encoding/json"
-	//"github.com/gofrs/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/repositories/users"
 	"net/http"
 )
 
-// GetUser
+// UpdateUser
 // @Tags         users
-// @Summary      Get a user.
-// @Description  Get a user.
+// @Summary      Update an user and return it.
+// @Description  Update an user.
 // @Param        uid           	path      string  true  "user UUID formatted ID"
 // @Success      200            {object}  models.user
 // @Failure      422            "Cannot parse uid"
 // @Failure      500            "Something went wrong"
 // @Router       /users/{uid} [get]
-func CreateUser(w http.ResponseWriter, r *http.Request) {
+func UpdateUser(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	userUid, _ := ctx.Value("userUid").(uuid.UUID)
 	name := chi.URLParam(r, "name")
 	surname := chi.URLParam(r, "surname")
 	alias := chi.URLParam(r, "alias")
 
-	err := users.CreateUser(name, surname, alias)
+	user, err := users.UpdateUserByUid(userUid, name, surname, alias)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -40,5 +41,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	body, _ := json.Marshal(user)
+	_, _ = w.Write(body)
 	return
 }

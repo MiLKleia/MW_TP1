@@ -73,13 +73,7 @@ func CreateUser(name string, surname string, alias string) (error) {
 	err := repository.CreateUser(name, surname, alias)
 
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
-			return &models.CustomError{
-				Message: "user not found",
-				Code:    http.StatusNotFound,
-			}
-		}
-		logrus.Errorf("error retrieving users : %s", err.Error())
+		logrus.Errorf("error assing user : %s", err.Error())
 		return &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
@@ -87,9 +81,28 @@ func CreateUser(name string, surname string, alias string) (error) {
 	}
 	return err
 	
-	
 }
 
+func UpdateUserByUid(id uuid.UUID, name string, surname string, alias string) (*models.User, error) {
+	var err error
+	
+	user , err := repository.UpdateUserByUid(id, name, surname, alias)
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return nil, &models.CustomError{
+				Message: "user not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving users : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return user, err
+}
 
 
 
