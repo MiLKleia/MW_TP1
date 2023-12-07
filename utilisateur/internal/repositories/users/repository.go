@@ -13,7 +13,8 @@ func UpdateUserByUid(uid uuid.UUID, name string, surname string, alias string) (
 		return nil, err
 	}
 
-	_ , err2 := db.Exec("UPDATE users SET name = ?, surname = ?, alias = ? WHERE uid = ?;", name, surname, alias, uid.String())
+	_ , err2 := db.Exec("UPDATE users SET name = ?, surname = ?, alias = ? WHERE uid = ?", name, surname, alias, uid.String())
+	
 	
 	if err2 != nil {
 		return nil, err
@@ -40,8 +41,10 @@ func CreateUser(name string, surname string, alias string) (error) {
 	// TODO boucle tant que pas nouveau UID
 
 	new_uid, _ := uuid.NewV4()
+
 	
-	_ , err2 := db.Exec("INSERT INTO users (uid, name, surname, alias) VALUES(? ,? , ?, ?);", new_uid.String(), name, surname, alias)
+	_ , err2 := db.Exec("INSERT INTO users (uid, name, surname, alias) VALUES(? ,? , ?, ?)", new_uid.String(), name, surname, alias)
+
 	helpers.CloseDB(db)
 
 	

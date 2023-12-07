@@ -1,7 +1,10 @@
 package users
 
 import (
-	"github.com/go-chi/chi/v5"
+	"fmt"
+
+	"io/ioutil"
+
 	"encoding/json"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
@@ -9,6 +12,12 @@ import (
 	"middleware/example/internal/repositories/users"
 	"net/http"
 )
+
+type user struct {
+    Name   []string `json:"name"`
+    Surname []string `json:"surname"`
+	Alias []string `json:"alias"`
+}
 
 // UpdateUser
 // @Tags         users
@@ -19,12 +28,31 @@ import (
 // @Failure      422            "Cannot parse uid"
 // @Failure      500            "Something went wrong"
 // @Router       /users/{uid} [get]
+
+
+
+
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	userUid, _ := ctx.Value("userUid").(uuid.UUID)
-	name := chi.URLParam(r, "name")
-	surname := chi.URLParam(r, "surname")
-	alias := chi.URLParam(r, "alias")
+	userUid, _ := r.Context().Value("userUid").(uuid.UUID)
+
+	//r.Body 
+	//json.Unmarshall 
+
+
+	body_in, _ := ioutil.ReadAll(r.Body)
+	bodyString := string(body_in)
+    fmt.Println(bodyString)
+
+	user_in := user{}
+	json.Unmarshal([]byte(bodyString), &user_in)
+	fmt.Println(user_in)
+
+
+	
+	name := "john"
+	surname := "doe"
+	alias := "JD"
+	
 
 	user, err := users.UpdateUserByUid(userUid, name, surname, alias)
 	if err != nil {

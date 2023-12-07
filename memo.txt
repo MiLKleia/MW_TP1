@@ -1,4 +1,4 @@
-insert into users (uid, name, surname, alias) values('8ad92d2e-43f2-4a55-760c-44943e041ea2', 'John', 'Doe', 'JD');
+insert into users (uid, name, surname, alias) values('31d92b1a-a23e-12a9-ab34-07c23e041ea2', 'Victoria', 'Rosaline', 'Vic');
 
 http://localhost:8082/users//?Name='John'&Surname='Doe'&Alias='JD'
 

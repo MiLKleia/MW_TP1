@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/controllers/users"
@@ -20,15 +19,16 @@ func main() {
 			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)
 			r.Delete("/", users.DeleteUser)
-			r.Put("/?Name={name}&Surname={surname}&Alias={alias}", users.UpdateUser)
+			r.Put("/", users.UpdateUser)
 		})
 	})
 
 
-
-
 	logrus.Info("[INFO] Web server started. Now listening on *:8082")
 	logrus.Fatalln(http.ListenAndServe(":8082", r))
+
+
+
 }
 
 func init() {
