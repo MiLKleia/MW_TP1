@@ -69,17 +69,17 @@ func DeleteUserByUid(id uuid.UUID) (error) {
 }
 
 
-func CreateUser(name string, surname string, alias string) (error) {
-	err := repository.CreateUser(name, surname, alias)
+func CreateUser(name string, surname string, alias string) (*models.User, error) {
+	user, err := repository.CreateUser(name, surname, alias)
 
 	if err != nil {
-		logrus.Errorf("error assing user : %s", err.Error())
-		return &models.CustomError{
+		logrus.Errorf("error adding user : %s", err.Error())
+		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
-	return err
+	return user, err
 	
 }
 

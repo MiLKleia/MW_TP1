@@ -32,10 +32,10 @@ func UpdateUserByUid(uid uuid.UUID, name string, surname string, alias string) (
 	
 }
 
-func CreateUser(name string, surname string, alias string) (error) {
+func CreateUser(name string, surname string, alias string) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	// TODO boucle tant que pas nouveau UID
@@ -45,12 +45,22 @@ func CreateUser(name string, surname string, alias string) (error) {
 	
 	_ , err2 := db.Exec("INSERT INTO users (uid, name, surname, alias) VALUES(? ,? , ?, ?)", new_uid.String(), name, surname, alias)
 
+	if err2 != nil {
+		return nil, err
+	}
+
+	row := db.QueryRow("SELECT * FROM users WHERE uid=?", new_uid.String())
 	helpers.CloseDB(db)
 
-	
-	return err2
+	var data models.User
+	err = row.Scan(&data.Uid, &data.Name, &data.Surname, &data.Alias)
+	if err != nil {
+		return nil, err
+	}
+	return &data, err
 	
 }
+	
 
 func DeleteUserByUid(uid uuid.UUID) (error) {
 	db, err := helpers.OpenDB()

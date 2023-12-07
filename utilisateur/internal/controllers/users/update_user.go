@@ -1,10 +1,8 @@
 package users
 
 import (
-	"fmt"
 
 	"io/ioutil"
-
 	"encoding/json"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
@@ -14,9 +12,9 @@ import (
 )
 
 type user struct {
-    Name   []string `json:"name"`
-    Surname []string `json:"surname"`
-	Alias []string `json:"alias"`
+    Name   string `json:"name"`
+    Surname string `json:"surname"`
+	Alias string `json:"alias"`
 }
 
 // UpdateUser
@@ -35,23 +33,17 @@ type user struct {
 func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	userUid, _ := r.Context().Value("userUid").(uuid.UUID)
 
-	//r.Body 
-	//json.Unmarshall 
 
 
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-    fmt.Println(bodyString)
-
 	user_in := user{}
 	json.Unmarshal([]byte(bodyString), &user_in)
-	fmt.Println(user_in)
-
 
 	
-	name := "john"
-	surname := "doe"
-	alias := "JD"
+	name := user_in.Name
+	surname := user_in.Surname
+	alias := user_in.Alias
 	
 
 	user, err := users.UpdateUserByUid(userUid, name, surname, alias)

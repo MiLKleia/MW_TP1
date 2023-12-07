@@ -2,14 +2,15 @@ package users
 
 import (
 
-	"github.com/go-chi/chi/v5"
+	"io/ioutil"
 	"encoding/json"
-	//"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/repositories/users"
 	"net/http"
 )
+
+
 
 // GetUser
 // @Tags         users
@@ -21,11 +22,17 @@ import (
 // @Failure      500            "Something went wrong"
 // @Router       /users/{uid} [get]
 func CreateUser(w http.ResponseWriter, r *http.Request) {
-	name := chi.URLParam(r, "name")
-	surname := chi.URLParam(r, "surname")
-	alias := chi.URLParam(r, "alias")
+	
+	body_in, _ := ioutil.ReadAll(r.Body)
+	bodyString := string(body_in)
+	user_in := user{}
+	json.Unmarshal([]byte(bodyString), &user_in)
 
-	err := users.CreateUser(name, surname, alias)
+	name := user_in.Name
+	surname := user_in.Surname
+	alias := user_in.Alias
+
+	user, err := users.CreateUser(name, surname, alias)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -40,5 +47,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	body, _ := json.Marshal(user)
+	_, _ = w.Write(body)
 	return
 }

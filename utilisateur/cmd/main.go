@@ -14,7 +14,7 @@ func main() {
 
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", users.GetAllUsers)
-		r.Post("/?Name={name}&Surname={surname}&Alias={alias}", users.CreateUser)
+		r.Post("/", users.CreateUser)
 		r.Route("/{uid}", func(r chi.Router) {
 			r.Use(users.Ctx)
 			r.Get("/", users.GetUser)
