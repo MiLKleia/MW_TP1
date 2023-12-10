@@ -10,3 +10,6 @@ type User struct {
 	Surname string     `json:"surname"`
 	Alias string     `json:"alias"`
 }
+
+
+

@@ -11,21 +11,29 @@ import (
 )
 
 
+type user_no_id struct {
+    Name   string `json:"name"`
+    Surname string `json:"surname"`
+	Alias string `json:"alias"`
+}
 
-// GetUser
-// @Tags         users
-// @Summary      Get a user.
-// @Description  Get a user.
+
+// createUser
+// @Tags         user
+// @Summary      create a user.
+// @Description  create a user.
 // @Param        uid           	path      string  true  "user UUID formatted ID"
+//		  name, surname, alias  body .json
 // @Success      200            {object}  models.user
 // @Failure      422            "Cannot parse uid"
 // @Failure      500            "Something went wrong"
-// @Router       /users/{uid} [get]
+// @Router       /users [post]
+
 func CreateUser(w http.ResponseWriter, r *http.Request) {
 	
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-	user_in := user{}
+	user_in := user_no_id{}
 	json.Unmarshal([]byte(bodyString), &user_in)
 
 	name := user_in.Name

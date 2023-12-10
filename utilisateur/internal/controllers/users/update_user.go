@@ -11,21 +11,17 @@ import (
 	"net/http"
 )
 
-type user struct {
-    Name   string `json:"name"`
-    Surname string `json:"surname"`
-	Alias string `json:"alias"`
-}
 
 // UpdateUser
 // @Tags         users
 // @Summary      Update an user and return it.
 // @Description  Update an user.
 // @Param        uid           	path      string  true  "user UUID formatted ID"
+//		  name, surname, alias  body .json
 // @Success      200            {object}  models.user
 // @Failure      422            "Cannot parse uid"
 // @Failure      500            "Something went wrong"
-// @Router       /users/{uid} [get]
+// @Router       /users/{uid} [put]
 
 
 
@@ -37,7 +33,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-	user_in := user{}
+	user_in := user_no_id{}
 	json.Unmarshal([]byte(bodyString), &user_in)
 
 	
