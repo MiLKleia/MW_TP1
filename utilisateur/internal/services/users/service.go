@@ -69,8 +69,8 @@ func DeleteUserByUid(id uuid.UUID) (error) {
 }
 
 
-func CreateUser(name string, surname string, alias string) (*models.User, error) {
-	user, err := repository.CreateUser(name, surname, alias)
+func CreateUser(name string, username string) (*models.User, error) {
+	user, err := repository.CreateUser(name, username)
 
 	if err != nil {
 		logrus.Errorf("error adding user : %s", err.Error())
@@ -83,10 +83,10 @@ func CreateUser(name string, surname string, alias string) (*models.User, error)
 	
 }
 
-func UpdateUserByUid(id uuid.UUID, name string, surname string, alias string) (*models.User, error) {
+func UpdateUserByUid(id uuid.UUID, name string, username string) (*models.User, error) {
 	var err error
 	
-	user , err := repository.UpdateUserByUid(id, name, surname, alias)
+	user , err := repository.UpdateUserByUid(id, name, username)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
 			return nil, &models.CustomError{

@@ -38,11 +38,9 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	
 	name := user_in.Name
-	surname := user_in.Surname
-	alias := user_in.Alias
-	
+	username := user_in.Username	
 
-	user, err := users.UpdateUserByUid(userUid, name, surname, alias)
+	user, err := users.UpdateUserByUid(userUid, name, username)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

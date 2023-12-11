@@ -1,10 +1,6 @@
-display albums
-display artists
 
-fetch songs from album
-fetch songs // albums from artist
-
-
+rendre pdf avec lien git (a passer public)
++ infos si juge nécéssaire
 
 http://localhost:8082/users
 http://localhost:8083/music/
