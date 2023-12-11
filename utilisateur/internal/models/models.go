@@ -11,5 +11,10 @@ type User struct {
 	Alias string     `json:"alias"`
 }
 
+type User_no_id struct {
+    Name   string `json:"name"`
+    Surname string `json:"surname"`
+	Alias string `json:"alias"`
+}
 
 

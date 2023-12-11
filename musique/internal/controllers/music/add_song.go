@@ -10,11 +10,6 @@ import (
 	"net/http"
 )
 
-type song_no_id struct {
-	Name   string `json:"name"`
-    Artist string `json:"artist"`
-	Album string `json:"album"`
-}
 
 // AddSong
 // @Tags         songs
@@ -32,7 +27,7 @@ func AddSong(w http.ResponseWriter, r *http.Request) {
 	
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-	song_in := song_no_id{}
+	var song_in models.Song_no_id
 	json.Unmarshal([]byte(bodyString), &song_in)
 
 	name := song_in.Name

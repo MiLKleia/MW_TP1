@@ -10,3 +10,6 @@ type CustomError struct {
 func (e *CustomError) Error() string {
 	return fmt.Sprintf("%d - %s", e.Code, e.Message)
 }
+
+
+

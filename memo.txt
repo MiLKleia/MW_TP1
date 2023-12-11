@@ -1,37 +1,14 @@
-insert into users (uid, name, surname, alias) values('31d92b1a-a23e-12a9-ab34-07c23e041ea2', 'Victoria', 'Rosaline', 'Vic');
+display albums
+display artists
 
-http://localhost:8082/users//?Name='John'&Surname='Doe'&Alias='JD'
+fetch songs from album
+fetch songs // albums from artist
 
 
-insert into users (uid, name, surname, alias) values('43dbcacc-015d-2e9f-4888-3494b50ca485', 'Alice', 'Ingeborg', 'InA');
-
-uid using MD2 hash
 
 http://localhost:8082/users
+http://localhost:8083/music/
 
 
 
-uid: '8cd45d2e-43f2-4e55-760c-2943e378da0'
-name: 'Charly'
-surname: 'Dulce'
-alias: 'Cha'
-
-
-_ , err := repository.deleteUserByUid(id)
-	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
-			return nil, &models.CustomError{
-				Message: "user not found",
-				Code:    http.StatusNotFound,
-			}
-		}
-		logrus.Errorf("error retrieving users : %s", err.Error())
-		return nil, &models.CustomError{
-			Message: "Something went wrong",
-			Code:    500,
-		}
-	}
-	return nil, err
-	
-	
 

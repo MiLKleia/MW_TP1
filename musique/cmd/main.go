@@ -21,6 +21,10 @@ func main() {
 			r.Delete("/", music.DeleteSong)
 			r.Put("/", music.UpdateSong)
 		})
+		r.Route("/album", func(r chi.Router) {
+			r.Get("/", music.GetAllAlbums)
+
+		})
 	})
 
 

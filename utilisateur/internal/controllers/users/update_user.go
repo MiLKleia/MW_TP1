@@ -33,7 +33,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-	user_in := user_no_id{}
+	var user_in models.User_no_id
 	json.Unmarshal([]byte(bodyString), &user_in)
 
 	

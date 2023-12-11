@@ -11,12 +11,6 @@ import (
 )
 
 
-type user_no_id struct {
-    Name   string `json:"name"`
-    Surname string `json:"surname"`
-	Alias string `json:"alias"`
-}
-
 
 // createUser
 // @Tags         user
@@ -33,7 +27,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-	user_in := user_no_id{}
+	var user_in models.User_no_id
 	json.Unmarshal([]byte(bodyString), &user_in)
 
 	name := user_in.Name

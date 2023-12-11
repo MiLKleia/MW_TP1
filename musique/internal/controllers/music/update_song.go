@@ -33,7 +33,7 @@ func UpdateSong(w http.ResponseWriter, r *http.Request) {
 
 	body_in, _ := ioutil.ReadAll(r.Body)
 	bodyString := string(body_in)
-	song_in := song_no_id{}
+	var song_in models.Song_no_id
 	json.Unmarshal([]byte(bodyString), &song_in)
 
 	

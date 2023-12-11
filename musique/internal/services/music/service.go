@@ -106,3 +106,19 @@ func UpdateSongById(id uuid.UUID, name string, artist string, album string) (*mo
 
 
 
+func GetAllAlbums() ([]models.Album, error) {
+	var err error
+	// calling repository
+	albums, err := repository.GetAllAlbums()
+	// managing errors
+	if err != nil {
+		logrus.Errorf("error retrieving albums : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return albums, nil
+}
+

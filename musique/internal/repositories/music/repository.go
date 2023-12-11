@@ -38,7 +38,22 @@ func AddSong(name string, artist string, album string) (*models.Song, error) {
 		return nil, err
 	}
 
+
+	// does the song already exist
+	row_test := db.QueryRow("SELECT * FROM songs WHERE name=? AND artist=? AND album=?",name, artist, album)
+	var data_test_exist models.Song
+	err = row_test.Scan(&data_test_exist.Id, &data_test_exist.Name, &data_test_exist.Artist, &data_test_exist.Album)
+	if err == nil {
+		return nil, &models.CustomError{
+			Message: "Song exists already",
+			Code:    409,
+		}
+	}
+
+
+
 	// TODO boucle tant que pas nouveau UID
+	
 
 	new_id, _ := uuid.NewV4()
 
@@ -100,6 +115,35 @@ func GetAllSongs() ([]models.Song, error) {
 
 	return songs, err
 }
+
+
+func GetAllAlbums() ([]models.Album, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	rows, err := db.Query("SELECT DISTINCT album FROM songs")
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+
+	// parsing datas in object slice
+	albums := []models.Album{}
+	for rows.Next() {
+		var data models.Album
+		err = rows.Scan(&data.Album)
+		if err != nil {
+			return nil, err
+		}
+		albums = append(albums, data)
+	}
+	// don't forget to close rows
+	_ = rows.Close()
+
+	return albums, err
+}
+
 
 func GetSongById(id uuid.UUID) (*models.Song, error) {
 	db, err := helpers.OpenDB()

@@ -11,7 +11,11 @@ type Song struct {
 	Album string `json:"album"`
 }
 
-type song_no_id struct {
+type Album struct {
+	Album string `json:"album"`
+}
+
+type Song_no_id struct {
 	Name   string `json:"name"`
     Artist string `json:"artist"`
 	Album string `json:"album"`
