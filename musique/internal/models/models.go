@@ -15,6 +15,10 @@ type Album struct {
 	Album string `json:"album"`
 }
 
+type Artist struct {
+	Artist string `json:"artist"`
+}
+
 type Song_no_id struct {
 	Name   string `json:"name"`
     Artist string `json:"artist"`

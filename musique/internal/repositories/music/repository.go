@@ -117,6 +117,24 @@ func GetAllSongs() ([]models.Song, error) {
 }
 
 
+
+func GetSongById(id uuid.UUID) (*models.Song, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	row := db.QueryRow("SELECT * FROM songs WHERE id=?", id.String())
+	helpers.CloseDB(db)
+
+	var data models.Song
+	err = row.Scan(&data.Id, &data.Name, &data.Artist, &data.Album)
+	if err != nil {
+		return nil, err
+	}
+	return &data, err
+}
+
+
 func GetAllAlbums() ([]models.Album, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
@@ -145,22 +163,90 @@ func GetAllAlbums() ([]models.Album, error) {
 }
 
 
-func GetSongById(id uuid.UUID) (*models.Song, error) {
+func GetSongsFromAlbum(album string) ([]models.Song, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	row := db.QueryRow("SELECT * FROM songs WHERE id=?", id.String())
-	helpers.CloseDB(db)
 
-	var data models.Song
-	err = row.Scan(&data.Id, &data.Name, &data.Artist, &data.Album)
+	rows, err := db.Query("SELECT * FROM songs WHERE album=?", album)
+	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
 	}
-	return &data, err
+
+	// parsing datas in object slice
+	songs := []models.Song{}
+	for rows.Next() {
+		var data models.Song
+		err = rows.Scan(&data.Id, &data.Name, &data.Artist, &data.Album)
+		if err != nil {
+			return nil, err
+		}
+		songs = append(songs, data)
+	}
+	// don't forget to close rows
+	_ = rows.Close()
+
+	return songs, err
 }
 
+
+func GetAllArtists() ([]models.Artist, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	rows, err := db.Query("SELECT DISTINCT artist FROM songs")
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+
+	// parsing datas in object slice
+	artists := []models.Artist{}
+	for rows.Next() {
+		var data models.Artist
+		err = rows.Scan(&data.Artist)
+		if err != nil {
+			return nil, err
+		}
+		artists = append(artists, data)
+	}
+	// don't forget to close rows
+	_ = rows.Close()
+
+	return artists, err
+}
+
+
+func GetSongsFromArtist(artist string) ([]models.Song, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+	
+	rows, err := db.Query("SELECT * FROM songs WHERE artist=?", artist)
+	helpers.CloseDB(db)
+	if err != nil {
+		return nil, err
+	}
+
+	// parsing datas in object slice
+	songs := []models.Song{}
+	for rows.Next() {
+		var data models.Song
+		err = rows.Scan(&data.Id, &data.Name, &data.Artist, &data.Album)
+		if err != nil {
+			return nil, err
+		}
+		songs = append(songs, data)
+	}
+	// don't forget to close rows
+	_ = rows.Close()
+
+	return songs, err
+}
 
 
 

@@ -122,3 +122,52 @@ func GetAllAlbums() ([]models.Album, error) {
 	return albums, nil
 }
 
+
+func GetSongsFromAlbum(album string) ([]models.Song, error) {
+	var err error
+	// calling repository
+	songs, err := repository.GetSongsFromAlbum(album)
+	// managing errors
+	if err != nil {
+		logrus.Errorf("error retrieving albums : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return songs, nil
+}
+
+func GetAllArtists() ([]models.Artist, error) {
+	var err error
+	// calling repository
+	artists, err := repository.GetAllArtists()
+	// managing errors
+	if err != nil {
+		logrus.Errorf("error retrieving albums : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return artists, nil
+}
+
+
+func GetSongsFromArtist(artist string) ([]models.Song, error) {
+	var err error
+	// calling repository
+	songs, err := repository.GetSongsFromArtist(artist)
+	// managing errors
+	if err != nil {
+		logrus.Errorf("error retrieving artists : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return songs, nil
+}

@@ -9,16 +9,16 @@ import (
 )
 
 // GetCollections
-// @Tags         albums
-// @Summary      Get all albums.
-// @Description  Get albums.
+// @Tags         artist
+// @Summary      Get all artists.
+// @Description  Get artists.
 // @Success      200            {array}  models.Album
 // @Failure      500             "Something went wrong"
-// @Router       /music/albums [get]
+// @Router       /music/artists [get]
 
-func GetAllAlbums(w http.ResponseWriter, _ *http.Request) {
+func GetAllArtists(w http.ResponseWriter, _ *http.Request) {
 	// calling service
-	albums, err := music.GetAllAlbums()
+	artists, err := music.GetAllArtists()
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -36,7 +36,7 @@ func GetAllAlbums(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(albums)
+	body, _ := json.Marshal(artists)
 	_, _ = w.Write(body)
 	return
 }

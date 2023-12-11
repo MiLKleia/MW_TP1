@@ -6,19 +6,23 @@ import (
 	"middleware/example/internal/models"
 	"middleware/example/internal/services/music"
 	"net/http"
+	"github.com/go-chi/chi/v5"
 )
 
 // GetCollections
 // @Tags         albums
 // @Summary      Get all albums.
 // @Description  Get albums.
+// @Param        album           	path      string  album
 // @Success      200            {array}  models.Album
 // @Failure      500             "Something went wrong"
-// @Router       /music/albums [get]
+// @Router       /music [get]
 
-func GetAllAlbums(w http.ResponseWriter, _ *http.Request) {
+func GetSongsFromAlbum(w http.ResponseWriter, r *http.Request) {
 	// calling service
-	albums, err := music.GetAllAlbums()
+
+	album := chi.URLParam(r, "album")
+	songs, err := music.GetSongsFromAlbum(album)
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -36,7 +40,7 @@ func GetAllAlbums(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(albums)
+	body, _ := json.Marshal(songs)
 	_, _ = w.Write(body)
 	return
 }
