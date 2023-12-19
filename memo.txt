@@ -5,6 +5,17 @@ rendre pdf avec lien git (a passer public)
 http://localhost:8082/users
 http://localhost:8083/music/
 
+Pas de front, utiliser postman
 
+export GO111MODULE="on"
+go run cmd/main.go
+
+PYTHONPATH=$PYTHONPATH:$(pwd) python3 src/app.py
+
+
+login (already registered
+{"username" :"JaD", "password" : "newpsw"}
+
+not working
 
 

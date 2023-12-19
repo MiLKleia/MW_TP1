@@ -30,13 +30,16 @@ def create_user(user_register):
 
     # on crée l'utilisateur côté API users
     response = requests.request(method="POST", url=users_url, json=user_schema)
+
+    """
     if response.status_code != 201:
         return response.json(), response.status_code
+    """
 
     # on ajoute l'utilisateur dans la base de données
     # pour que les données entre API et BDD correspondent
     try:
-        user_model.id = response.json()["id"]
+        user_model.id = response.json()["uid"]
         users_repository.add_user(user_model)
     except Exception:
         raise SomethingWentWrong
