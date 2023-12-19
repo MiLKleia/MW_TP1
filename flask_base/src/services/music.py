@@ -5,7 +5,6 @@ from marshmallow import EXCLUDE
 from flask_login import current_user
 
 from src.schemas.music import SongSchema
-from src.models.music import Song as MusicModel
 from src.models.http_exceptions import *
 
 
@@ -19,19 +18,15 @@ def get_song(id):
     response = requests.request(method="GET", url=songs_url+id)
     return response.json(), response.status_code
 
-# TODO MODIFY MY GO STRUCT
 
 def add_song(song_register):
-    # on récupère le modèle music pour la BDD
+    
     music_model = MusicModel(song_register)
-    # on récupère le schéma utilisateur pour la requête vers l'API users
+    # on récupère le schéma song pour la requête vers l'API users
     song_schema = SongSchema().loads(json.dumps(song_register), unknown=EXCLUDE)
 
-    # on crée l'utilisateur côté API users
+    # on crée la musique côté API music
     response = requests.request(method="POST", url=songs_url, json=song_schema)
-    if response.status_code != 201:
-        return response.json(), response.status_code
-
 
     return response.json(), response.status_code
 
@@ -46,7 +41,6 @@ def modify_song(id, song_update):
         response = requests.request(method="PUT", url=songs_url+id, json=song_schema)
         if response.status_code != 200:
             return response.json(), response.status_code
-
 
     return (response.json(), response.status_code) if response else get_song(id)
 

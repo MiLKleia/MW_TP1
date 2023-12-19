@@ -14,8 +14,10 @@ PYTHONPATH=$PYTHONPATH:$(pwd) python3 src/app.py
 
 
 login (already registered
-{"username" :"JaD", "password" : "newpsw"}
-
-not working
+{ "username" :"Alice new usrname", "password" : "newpsw"}
 
 
+doit pouvoir accepter 2 formats de données !!!
+
+
+Ajouter la route dans app.py !!!
