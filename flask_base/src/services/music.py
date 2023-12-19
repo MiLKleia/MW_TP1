@@ -5,6 +5,7 @@ from marshmallow import EXCLUDE
 from flask_login import current_user
 
 from src.schemas.music import SongSchema
+from src.schemas.music import SongUpdateSchema
 from src.models.http_exceptions import *
 
 
@@ -18,12 +19,20 @@ def get_song(id):
     response = requests.request(method="GET", url=songs_url+id)
     return response.json(), response.status_code
 
+def get_album(title):
+    response = requests.request(method="GET", url=songs_url+"album/"+title)
+    return response.json(), response.status_code
 
-def add_song(song_register):
+def get_artist(name):
+    response = requests.request(method="GET", url=songs_url+"artist/"+name)
+    return response.json(), response.status_code
+
+
+
+def add_song(song_to_add):
     
-    music_model = MusicModel(song_register)
     # on récupère le schéma song pour la requête vers l'API users
-    song_schema = SongSchema().loads(json.dumps(song_register), unknown=EXCLUDE)
+    song_schema = SongUpdateSchema().loads(json.dumps(song_to_add), unknown=EXCLUDE)
 
     # on crée la musique côté API music
     response = requests.request(method="POST", url=songs_url, json=song_schema)

@@ -163,3 +163,148 @@ def get_songs():
           - users
     """
     return music_service.get_songs()
+
+
+@music.route('/', methods=['POST'])
+@login_required
+def add_song():
+    """
+    ---
+    get:
+      description: Getting a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of user id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+      tags:
+          - users
+    """
+
+    try:
+        song_to_add = SongUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+    except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+
+    # modification de la musique (name, artist, album)
+    try:
+        return music_service.add_song(song_to_add)
+    except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+    
+
+
+
+@music.route('/album/<title>', methods=['GET'])
+@login_required
+def get_album(title):
+    """
+    ---
+    get:
+      description: Getting a song
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of user id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+      tags:
+          - users
+    """
+
+    return music_service.get_album(title)
+
+@music.route('/artist/<name>', methods=['GET'])
+@login_required
+def get_artist(name):
+    """
+    ---
+    get:
+      description: Getting a song
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of user id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+      tags:
+          - users
+    """
+
+    return music_service.get_artist(name)
+
