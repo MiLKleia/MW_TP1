@@ -308,3 +308,10 @@ def get_artist(name):
 
     return music_service.get_artist(name)
 
+
+@music.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_song(id):
+    
+    return music_service.delete_song(id)
+

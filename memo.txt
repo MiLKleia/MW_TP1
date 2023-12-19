@@ -20,4 +20,4 @@ login (already registered
 doit pouvoir accepter 2 formats de données !!!
 
 
-Ajouter la route dans app.py !!!
+le routing de rating est par route/music.py car est en parallèle

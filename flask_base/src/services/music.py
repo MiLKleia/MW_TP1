@@ -19,6 +19,10 @@ def get_song(id):
     response = requests.request(method="GET", url=songs_url+id)
     return response.json(), response.status_code
 
+def delete_song(id):
+    response = requests.request(method="DELETE", url=songs_url+id)
+    return response.json(), response.status_code
+
 def get_album(title):
     response = requests.request(method="GET", url=songs_url+"album/"+title)
     return response.json(), response.status_code
@@ -26,6 +30,10 @@ def get_album(title):
 def get_artist(name):
     response = requests.request(method="GET", url=songs_url+"artist/"+name)
     return response.json(), response.status_code
+
+def delete_song(id):
+    response = requests.request(method="DELETE", url=songs_url+id)
+    return response.status_code
 
 
 
