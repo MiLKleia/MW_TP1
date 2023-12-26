@@ -1,4 +1,5 @@
 import json
+import yaml
 from flask import Blueprint, request
 from marshmallow import ValidationError
 from flask_login import login_user, logout_user, login_required, current_user
@@ -52,6 +53,7 @@ def login():
           - auth
           - users
     """
+
     if current_user.is_authenticated:
         error = ForbiddenSchema().loads(json.dumps({"message": "Already logged in"}))
         return error, error.get("code")
@@ -59,7 +61,7 @@ def login():
     # parser le body
     try:
         # it is possible to use marshmallow Schemas validation (used also for doc) or custom classes
-        user_login = UserLoginSchema().loads(json_data=request.data.decode('utf-8'))
+        user_login = UserLoginSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
@@ -162,7 +164,7 @@ def register():
 
     # parser le body
     try:
-        user_register = UserRegisterSchema().loads(json_data=request.data.decode('utf-8'))
+        user_register = UserRegisterSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")

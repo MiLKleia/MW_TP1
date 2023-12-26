@@ -1,4 +1,5 @@
 import json
+import yaml
 from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
@@ -107,7 +108,7 @@ def put_user(id):
     """
     # parser le body
     try:
-        user_update = UserUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+        user_update = UserUpdateSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")

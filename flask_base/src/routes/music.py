@@ -1,4 +1,5 @@
 import json
+import yaml
 from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
@@ -111,7 +112,7 @@ def put_soong(id):
     """
     # parser le body
     try:
-        song_update = SongUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+        song_update = SongUpdateSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
@@ -210,7 +211,7 @@ def add_song():
     """
 
     try:
-        song_to_add = SongUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+        song_to_add = SongUpdateSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
@@ -343,7 +344,7 @@ def get_song_ratings(id):
 def add_rating(id):
      
      try:
-        rating_to_add = RatingAddUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+        rating_to_add = RatingAddUpdateSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
      except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
@@ -364,7 +365,7 @@ def add_rating(id):
 def modify_rating(id, rating_id):
      
      try:
-        rating_to_change = RatingAddUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+        rating_to_change = RatingAddUpdateSchema().loads(json_data=json.dumps(yaml.load(request.data.decode('utf-8'))))
      except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
         return error, error.get("code")
@@ -396,7 +397,7 @@ def get_rating_by_id(id, rating_id):
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
      
-@music.route('/<id>/ratings/<rating_id>', methods=['GET'])
+@music.route('/<id>/ratings/<rating_id>', methods=['DELETE'])
 @login_required
 def delete_rating_by_id(id, rating_id):
   

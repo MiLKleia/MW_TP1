@@ -1,7 +1,4 @@
 
-rendre pdf avec lien git (a passer public)
-+ infos si juge nécéssaire
-
 http://localhost:8082/users
 http://localhost:8083/music/
 
@@ -13,13 +10,12 @@ go run cmd/main.go
 PYTHONPATH=$PYTHONPATH:$(pwd) python3 src/app.py
 
 
-login (already registered
-{ "username" :"Alice new usrname", "password" : "newpsw"}
 
 
-doit pouvoir accepter 2 formats de données !!!
+USERS ALREADY REGISTERED
 
+username: A d a
+password: 456word
 
-le routing de rating est par route/music.py car est en parallèle
-
-delete fonctionne mais affiche un message d'erreur au lieu de 204
+username: JD
+password: 123pass
