@@ -359,4 +359,56 @@ def add_rating(id):
         return error, error.get("code")
      
 
+@music.route('/<id>/ratings/<rating_id>', methods=['PUT'])
+@login_required
+def modify_rating(id, rating_id):
+     
+     try:
+        rating_to_change = RatingAddUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+     except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+
+    # modification
+     try:
+        return rating_service.modify_rating(id, rating_id, rating_to_change)
+     except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
+        return error, error.get("code")
+     except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+     
+
+
+
+
+@music.route('/<id>/ratings/<rating_id>', methods=['GET'])
+@login_required
+def get_rating_by_id(id, rating_id):
+  
+     try:
+        return rating_service.get_rating_by_id(id, rating_id)
+     except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
+        return error, error.get("code")
+     except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+     
+@music.route('/<id>/ratings/<rating_id>', methods=['GET'])
+@login_required
+def delete_rating_by_id(id, rating_id):
+  
+     try:
+        return rating_service.delete_rating_by_id(id, rating_id)
+     except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
+        return error, error.get("code")
+     except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+     
+
+
 

@@ -31,10 +31,29 @@ def add_rating(id, uid, new_rating):
     rating_schema["user_id"] = uid
     rating_schema["song_id"] =  id
 
-    # on crée le rating côté API music
+    # on crée le rating côté API 
     response = requests.request(method="POST", url=rating_url+id+"/ratings", json=rating_schema)
 
     return response.json(), response.status_code
+
+def modify_rating(id, rating_id, new_rating):
+
+    rating_schema = BaseRatingSchema().loads(json.dumps(new_rating), unknown=EXCLUDE)
+
+    # on envoie le nouveau rating côté API 
+    response = requests.request(method="PUT", url=rating_url+id+"/ratings/"+rating_id, json=rating_schema)
+
+    return response.json(), response.status_code
+
+def get_rating_by_id(id, rating_id):
+
+    response = requests.request(method="GET", url=rating_url+id+"/ratings/"+rating_id)
+    return response.json(), response.status_code
+
+
+def delete_rating_by_id(id, rating_id):
+    response = requests.request(method="DELETE", url=rating_url+id+"/ratings/"+rating_id)
+    return response.status_code
 
 
 
