@@ -169,3 +169,10 @@ def get_users():
           - users
     """
     return users_service.get_users()
+
+
+@users.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_user(id):
+    
+    return users_service.delete_user(id)

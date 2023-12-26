@@ -2,11 +2,15 @@ import json
 from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
+from flask_login import login_user, logout_user, login_required, current_user
+
 
 from src.models.http_exceptions import *
 from src.schemas.music import SongUpdateSchema
+from src.schemas.ratings import RatingAddUpdateSchema
 from src.schemas.errors import *
 import src.services.music as music_service
+import src.services.rating as rating_service
 
 # from routes import music
 music = Blueprint(name="music", import_name=__name__)
@@ -309,9 +313,50 @@ def get_artist(name):
     return music_service.get_artist(name)
 
 
+
 @music.route('/<id>', methods=['DELETE'])
 @login_required
 def delete_song(id):
     
     return music_service.delete_song(id)
+
+@music.route('/album/', methods=['GET'])
+@login_required
+def get_list_album():
+    
+    return music_service.get_list_album()
+
+@music.route('/artist/', methods=['GET'])
+@login_required
+def get_list_artist():
+    
+    return music_service.get_list_artist()
+
+
+@music.route('/<id>/ratings', methods=['GET'])
+@login_required
+def get_song_ratings(id):
+    return rating_service.get_song_ratings(id)
+
+@music.route('/<id>/ratings', methods=['POST'])
+@login_required
+def add_rating(id):
+     
+     try:
+        rating_to_add = RatingAddUpdateSchema().loads(json_data=request.data.decode('utf-8'))
+     except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+
+    # ajout du rating (id, rating)
+     try:
+        return rating_service.add_rating(id, current_user.id, rating_to_add)
+     except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": "One required field was empty"}))
+        return error, error.get("code")
+     except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+     
+
 

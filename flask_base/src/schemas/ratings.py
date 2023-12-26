@@ -21,7 +21,7 @@ class RatingSchema(Schema):
                (not obj.get("rating") or obj.get("rating") == "")
 
 class BaseRatingSchema(Schema):
-    id = fields.String(description="UUID")
+    
     comment = fields.String(description="Comment")
     rating = fields.Int(description="rating")
     artist = fields.String(description="Comment")
@@ -30,7 +30,7 @@ class BaseRatingSchema(Schema):
 
 
 # Schéma musique de modification (name, artist, album)
-class SongUpdateSchema(BaseRatingSchema):
+class RatingAddUpdateSchema(BaseRatingSchema):
     # permet de définir dans quelles conditions le schéma est validé ou nom
     @validates_schema
     def validates_schemas(self, data, **kwargs):

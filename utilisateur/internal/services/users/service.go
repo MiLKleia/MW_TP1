@@ -63,7 +63,10 @@ func DeleteUserByUid(id uuid.UUID) (error) {
 			Code:    500,
 		}
 	}
-	return err
+	return &models.CustomError{
+			Message: "No Content",
+			Code:    204,
+		}
 	
 	
 }
@@ -79,7 +82,10 @@ func CreateUser(name string, username string) (*models.User, error) {
 			Code:    500,
 		}
 	}
-	return user, err
+	return user, &models.CustomError{
+			Message: "Created",
+			Code:    201,
+		}
 	
 }
 

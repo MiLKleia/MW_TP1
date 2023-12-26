@@ -21,3 +21,5 @@ doit pouvoir accepter 2 formats de données !!!
 
 
 le routing de rating est par route/music.py car est en parallèle
+
+delete fonctionne mais affiche un message d'erreur au lieu de 204

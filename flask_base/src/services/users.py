@@ -85,3 +85,8 @@ def get_user_from_db(username):
 
 def user_exists(username):
     return get_user_from_db(username) is not None
+
+def delete_user(id):
+    response = requests.request(method="DELETE", url=users_url+id)
+    users_repository.delete_user(id)
+    return response.status_code

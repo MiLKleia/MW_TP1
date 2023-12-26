@@ -19,21 +19,22 @@ def get_song_rating_by_user(id, user):
     response = requests.request(method="GET", url=rating_url+id+"/ratings/"+user)
     return response.json(), response.status_code
 
-def add_rating(new_rating, id):
+def add_rating(id, uid, new_rating):
     # on récupère le schéma song pour la requête vers l'API users
-    rating_schema = BaseRatingSchema().loads(json.dumps(new_rating), unknown=EXCLUDE)
 
-    # on crée la musique côté API music
+    song = requests.request(method="GET", url="http://localhost:8083/music/"+id)
+    json_song = song.json()
+    artist = json_song['artist']
+
+    rating_schema = BaseRatingSchema().loads(json.dumps(new_rating), unknown=EXCLUDE)
+    rating_schema["artist"] = artist
+    rating_schema["user_id"] = uid
+    rating_schema["song_id"] =  id
+
+    # on crée le rating côté API music
     response = requests.request(method="POST", url=rating_url+id+"/ratings", json=rating_schema)
 
     return response.json(), response.status_code
 
-def add_rating(new_rating, id):
-    # on récupère le schéma song pour la requête vers l'API users
-    rating_schema = BaseRatingSchema().loads(json.dumps(new_rating), unknown=EXCLUDE)
 
-    # on crée la musique côté API music
-    response = requests.request(method="POST", url=rating_url+id+"/ratings", json=rating_schema)
-
-    return response.json(), response.status_code
 

@@ -63,7 +63,10 @@ func DeleteSongById(id uuid.UUID) (error) {
 			Code:    500,
 		}
 	}
-	return err
+	return &models.CustomError{
+			Message: "No Content",
+			Code:    204,
+		}
 	
 	
 }
@@ -79,7 +82,10 @@ func AddSong(name string, artist string, album string) (*models.Song, error) {
 			Code:    500,
 		}
 	}
-	return song, err
+	return song, &models.CustomError{
+			Message: "Created",
+			Code:    201,
+		}
 	
 }
 
