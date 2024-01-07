@@ -114,7 +114,7 @@
             "description": "Artist",
             "type": "string"
           },
-          "file_name": {
+          "album": {
             "description": "File name without extension",
             "type": "string"
           },
@@ -134,7 +134,7 @@
             },
             "type": "array"
           },
-          "title": {
+          "name": {
             "description": "Title",
             "type": "string"
           }
@@ -147,11 +147,11 @@
             "description": "Artist",
             "type": "string"
           },
-          "file_name": {
+          "album": {
             "description": "File name without extension",
             "type": "string"
           },
-          "title": {
+          "name": {
             "description": "Title",
             "type": "string"
           }
@@ -164,11 +164,11 @@
             "description": "Artist",
             "type": "string"
           },
-          "file_name": {
+          "album": {
             "description": "File name without extension",
             "type": "string"
           },
-          "title": {
+          "name": {
             "description": "Title",
             "type": "string"
           }
@@ -277,7 +277,7 @@
     }
   },
   "info": {
-    "title": "Tchipify",
+    "name": "Tchipify",
     "version": "1.0.0"
   },
   "openapi": "3.0.2",
@@ -520,7 +520,7 @@
         ]
       }
     },
-    "/songs/": {
+    "/music/": {
       "get": {
         "description": "Getting all songs",
         "responses": {
@@ -659,7 +659,252 @@
         ]
       }
     },
-    "/songs/{song_id}": {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "/music/album": {
+      "get": {
+        "description": "Getting all album",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Album"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Album"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+    },
+    "/music/album/<album_name>": {
+      "get": {
+        "description": "Getting all songs from <album_name>",
+        "parameters": [
+          {
+            "description": "album name",
+            "in": "path",
+            "name": "album",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+    },
+    "/music/artist": {
+      "get": {
+        "description": "Getting all artist",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Artist"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Artist"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+    },
+    "/music/artist/<artist_name>": {
+      "get": {
+        "description": "Getting all songs from <artist_name>",
+        "parameters": [
+          {
+            "description": "artist or group * name",
+            "in": "path",
+            "name": "artist",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+    },
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    "/music/{song_id}": {
       "delete": {
         "description": "Deleting a song",
         "parameters": [
@@ -896,7 +1141,7 @@
         ]
       }
     },
-    "/songs/{song_id}/ratings": {
+    "/music/{song_id}/ratings": {
       "get": {
         "description": "Getting ratings of a song",
         "parameters": [
@@ -1085,7 +1330,7 @@
         ]
       }
     },
-    "/songs/{song_id}/ratings/{rating_id}": {
+    "/music/{song_id}/ratings/{rating_id}": {
       "delete": {
         "description": "Deleting one's rating",
         "parameters": [

@@ -30,3 +30,11 @@ class SongUpdateSchema(BaseSongSchema):
                 ("artist" in data and data["artist"] != "") and
                 ("album" in data and data["album"] != "")):
             raise ValidationError("all fields must be provided")
+   
+   
+   #For the DOC         
+class AlbumListSchema(Schema):
+	album = fields.String(description="Album")
+	
+class ArtistListSchema(Schema):
+	artist = fields.String(description="Artist")

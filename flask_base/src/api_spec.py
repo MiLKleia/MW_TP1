@@ -5,6 +5,7 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from apispec_webframeworks.flask import FlaskPlugin
 from src.schemas.user import *
+from src.schemas.music import *
 from src.schemas.user_auth import *
 from src.schemas.errors import *
 
@@ -20,6 +21,9 @@ spec = APISpec(
 
 # register used schemas with spec
 spec.components.schema("User", schema=UserSchema)
+spec.components.schema("Song", schema=SongSchema)
+spec.components.schema("Album", schema=AlbumListSchema)
+spec.components.schema("Artist", schema=ArtistListSchema)
 spec.components.schema("UserLogin", schema=UserLoginSchema)
 spec.components.schema("UserRegister", schema=UserRegisterSchema)
 spec.components.schema("UserUpdate", schema=UserUpdateSchema)
